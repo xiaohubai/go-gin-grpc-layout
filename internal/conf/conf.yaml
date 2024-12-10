@@ -1,0 +1,28 @@
+server:
+  http:
+    addr: 0.0.0.0:8000
+    timeout: 1s
+  grpc:
+    addr: 0.0.0.0:9000
+    timeout: 1s
+
+data:
+  mysql:
+    driver: mysql
+    source: root:123456@tcp(127.0.0.1:3306)/go-layout?charset=utf8mb4&parseTime=True&loc=Local
+  redis:
+    db: 0
+    addr: 127.0.0.1:6379
+    password: "123456"
+    dialTimeout: 1s
+    readTimeout: 0.4s
+    writeTimeout: 0.6s
+
+logs:
+  level: "info"
+  format: "json"
+  filename: "./logs/server"
+  maxSize: 1
+  maxBackups: 3
+  maxAge: 7
+  compress: false

@@ -1,0 +1,11 @@
+app:
+  name: go-gin-grpc-layout
+  env: prod
+  version: 0.0.1
+  id: 127.0.0.1
+
+# 远程配置 https://etcd.com
+remote:
+  type: etcd
+  endpoint: 127.0.0.1:2379
+  timeout: 5s

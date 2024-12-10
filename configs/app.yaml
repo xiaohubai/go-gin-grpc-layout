@@ -1,0 +1,5 @@
+app:
+  name: go-gin-grpc-layout
+  env: test
+  version: 0.0.1
+  id: 127.0.0.1
