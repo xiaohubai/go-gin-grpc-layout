@@ -19,10 +19,11 @@ data:
     writeTimeout: 0.6s
 
 logs:
-  level: "info"
-  format: "json"
-  filename: "./logs/server"
-  maxSize: 1
-  maxBackups: 3
-  maxAge: 7
-  compress: false
+  server:
+    level: "info"
+    format: "json"
+    filename: "./logs/server"
+    maxSize: 1
+    maxBackups: 3
+    maxAge: 7
+    compress: false

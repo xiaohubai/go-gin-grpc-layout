@@ -31,8 +31,7 @@ func NewConf(conf Conf) (*Etcd[any], error) {
 	if err != nil {
 		return nil, err
 	}
-	s := conf.KV
-	return &Etcd[s]{c: cli}, nil
+	return &Etcd[any]{c: cli}, nil
 }
 
 func (e *Etcd[T]) GetKV(ctx context.Context, name string) (*T, error) {

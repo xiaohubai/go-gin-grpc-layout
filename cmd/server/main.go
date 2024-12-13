@@ -1,11 +1,18 @@
-package server
+package main
 
-import "flag"
+import (
+	"context"
 
-var config = flag.String("conf", "./config/app.yaml", "app config file")
+	"github.com/xiaohubai/go-gin-grpc-layout/internal/conf"
+	"github.com/xiaohubai/go-gin-grpc-layout/pkg/config"
+)
 
 func main() {
-	flag.Parse()
+	ctx, cancel := context.WithCancel(context.Background())
+	defer cancel()
+	c, err := config.InitConfig[conf.Config](ctx)
+	if err != nil {
+		panic(err)
+	}
 
-	println("Hello world!")
 }

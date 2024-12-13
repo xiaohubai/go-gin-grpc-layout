@@ -2,12 +2,10 @@ package config
 
 import (
 	"context"
-	"errors"
 	"flag"
 	"time"
 
 	"github.com/spf13/viper"
-	"github.com/xiaohubai/go-gin-grpc-layout/pkg/etcd"
 )
 
 type Configs struct {
@@ -38,25 +36,20 @@ func GetAppConfigs() *Configs {
 func InitConfig[T any](ctx context.Context, conf ...string) (*T, error) {
 	flag.StringVar(&configs, "configs", "./configs/app.toml", "app config file")
 	flag.Parse()
-	if err := newFileConf(ctx, configs, &c); err != nil {
+	if err := newFileConf(configs, &c); err != nil {
 		return nil, err
 	}
 
 	var t T
 	if c.App.Env == "test" {
-		if err := newFileConf(ctx, conf[0], &t); err != nil {
-			return nil, err
-		}
-	}
-	if c.App.Env == "prod" {
-		if err := newRemoteConf(ctx, &c.Remote, &t); err != nil {
+		if err := newFileConf(conf[0], &t); err != nil {
 			return nil, err
 		}
 	}
 	return &t, nil
 }
 
-func newFileConf(ctx context.Context, filePath string, c any) error {
+func newFileConf(filePath string, c any) error {
 	v := viper.New()
 	v.SetConfigFile(filePath)
 	v.SetConfigType("yaml")
@@ -69,6 +62,7 @@ func newFileConf(ctx context.Context, filePath string, c any) error {
 	return nil
 }
 
+/*
 func newRemoteConf(ctx context.Context, remote *Remote, c any) error {
 	switch remote.Type {
 	case "etcd":
@@ -80,9 +74,10 @@ func newRemoteConf(ctx context.Context, remote *Remote, c any) error {
 		if err != nil {
 			return err
 		}
-		e.kv = c
+
 		ss, err := e.GetKV(ctx, "configs")
 		return
 	}
 	return errors.New("empty remote type source")
 }
+*/
