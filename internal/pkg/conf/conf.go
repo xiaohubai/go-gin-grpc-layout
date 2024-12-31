@@ -1,10 +1,26 @@
 package conf
 
-// Config 表示整个配置的结构体
-type Config struct {
+import "time"
+
+type Conf struct {
+	App    `json:"app" yaml:"app"`
+	Remote `json:"remote" yaml:"remote"`
 	Server Server `json:"server" yaml:"server"`
 	Data   Data   `json:"data" yaml:"data"`
 	Logs   Logs   `json:"logs" yaml:"logs"`
+}
+
+type App struct {
+	Name    string `json:"name" yaml:"name"`
+	Env     string `json:"env" yaml:"env"`
+	Version string `json:"version" yaml:"version"`
+	ID      string `json:"id" yaml:"id"`
+}
+
+type Remote struct {
+	Type      string        `json:"type" yaml:"type"`
+	Endpoints []string      `json:"endpoints" yaml:"endpoints"`
+	Timeout   time.Duration `json:"timeout" yaml:"timeout"`
 }
 
 // ServerConfig 表示服务器配置的结构体
@@ -15,12 +31,14 @@ type Server struct {
 
 // HTTPConfig 表示 HTTP 服务器配置的结构体
 type HTTP struct {
+	Network string `json:"network" yaml:"network"`
 	Addr    string `json:"addr" yaml:"addr"`
 	Timeout string `json:"timeout" yaml:"timeout"`
 }
 
 // GRPCConfig 表示 gRPC 服务器配置的结构体
 type GRPC struct {
+	Network string `json:"network" yaml:"network"`
 	Addr    string `json:"addr" yaml:"addr"`
 	Timeout string `json:"timeout" yaml:"timeout"`
 }
@@ -56,4 +74,15 @@ type Logs struct {
 	MaxBackups int    `json:"maxBackups" yaml:"maxBackups"`
 	MaxAge     int    `json:"maxAge" yaml:"maxAge"`
 	Compress   bool   `json:"compress" yaml:"compress"`
+}
+
+var c Conf
+
+func GetConfig() *Conf {
+	return &c
+}
+
+// 获取env
+func GetEnv() string {
+	return c.App.Env
 }

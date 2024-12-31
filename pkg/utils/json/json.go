@@ -1,8 +1,9 @@
-package utils
+package json
 
 import "encoding/json"
 
-func JsonToMarshal(data interface{}) string {
+// Marshal 把数据转换成json字符串
+func Marshal(data interface{}) string {
 	buf, err := json.Marshal(data)
 	if err != nil {
 		return ""

@@ -2,31 +2,26 @@ package log
 
 import (
 	"fmt"
-	"time"
-
-	"fmt"
 	"log/slog"
 	"time"
 
-	"github.com/natefinch/lumberjack"
+	"github.com/xiaohubai/go-gin-grpc-layout/internal/pkg/conf"
+	"gopkg.in/natefinch/lumberjack.v2"
 )
 
-func New(c *conf.Logs, g *conf.Global) (slog.Logger, error) {
+func New(c *conf.Conf) error {
 	// 配置日志文件写入器
 	fileWriter := &lumberjack.Logger{
-		Filename:   fmt.Sprintf("%s/%s.log", c.Filename, time.Now().Format("2006-01-02")),
-		MaxSize:    int(c.MaxSize),
-		MaxBackups: int(c.MaxBackups),
-		MaxAge:     int(c.MaxAge),
-		Compress:   c.Compress,
+		Filename:   fmt.Sprintf("%s/%s.log", c.Logs.Filename, time.Now().Format("2006010213")),
+		MaxSize:    int(c.Logs.MaxSize),
+		MaxBackups: int(c.Logs.MaxBackups),
+		MaxAge:     int(c.Logs.MaxAge),
+		Compress:   c.Logs.Compress,
 	}
-
-	// 创建slog.Logger实例
-	logger := slog.New(slog.NewJSONHandler(fileWriter, nil))
 
 	// 设置日志级别
 	var level slog.Level
-	switch c.Level {
+	switch c.Logs.Level {
 	case "debug":
 		level = slog.LevelDebug
 	case "info":
@@ -36,13 +31,10 @@ func New(c *conf.Logs, g *conf.Global) (slog.Logger, error) {
 	case "error":
 		level = slog.LevelError
 	default:
-		return nil, fmt.Errorf("unsupported log level: %s", c.Level)
+		return fmt.Errorf("unsupported log level: %s", c.Logs.Level)
 	}
-	logger.SetLevel(level)
 
-	// 添加全局上下文信息
-	logger = logger.With("env", g.Env, "service_id", g.Id, "service_name", g.AppName, "service_version", g.Version)
+	slog.New(slog.NewJSONHandler(fileWriter, nil)).With(slog.LevelKey, level)
 
-	// 返回一个包装了slog.Logger的接口，如果需要的话
-	return logger, nil
+	return nil
 }

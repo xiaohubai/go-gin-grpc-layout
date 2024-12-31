@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package api.http.v1;
+
+option go_package = "github.com/xiaohubai/go-gin-grpc-layout/api/http/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.http.v1";
+
+import "validate/validate.proto";
+
+message LoginRequest {
+  //用户名
+  string username = 1 [ (buf.validate.field).string = {min_len : 3, max_len : 11} ];
+  //密码
+  string password = 2 [ (buf.validate.field).string.min_len = 6 ];
+  //验证码
+  string captcha = 3 [ (buf.validate.field).string.len = 6 ];
+  //校验ID
+  string captchaID = 4;
+}
+
+message LoginResponse {
+  int64 ID = 1;
+  string UID = 2;
+  string userName = 3;
+  string nickName = 4;
+  string birth = 5;
+  string avatar = 6;
+  string roleID = 7;
+  string roleName = 8;
+  string phone = 9;
+  string wechat = 10;
+  string email = 11;
+  int32 state = 12;
+  string motto = 13;
+  string token = 18;
+  string refreshToken = 19;
+}

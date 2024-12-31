@@ -24,3 +24,7 @@ var (
 	appConf   string
 	startDate string
 )
+
+func main() {
+	Execute()
+}

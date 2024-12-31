@@ -22,10 +22,7 @@ init:
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	go install github.com/go-kratos/kratos/cmd/kratos/v2@latest
 	go install github.com/go-kratos/kratos/cmd/protoc-gen-go-http/v2@latest
-	go install github.com/google/wire/cmd/wire@latest
 	go install github.com/envoyproxy/protoc-gen-validate@latest
-	go install github.com/google/gnostic/cmd/protoc-gen-openapi@latest
-	sh ./scripts/protoc.sh
 
 .PHONY: api
 # generate api proto
@@ -36,36 +33,13 @@ api:
  	       --go-http_out=paths=source_relative:./api \
  	       --go-grpc_out=paths=source_relative:./api \
 		   --validate_out=paths=source_relative,lang=go:./api \
-		   --openapi_out=fq_schema_naming=true,default_response=false:./docs/openapi \
 	       $(API_PROTO_FILES)
 
-	sh scripts/remove-omitempty.sh
 
-.PHONY: dockerBuild
-# generate dockerBuild
-dockerBuild:
-	sh ./scripts/docker-build.sh
-
-.PHONY: goimports
-# generate goimports
-goimports:
-	sh ./scripts/goimports.sh
-
-.PHONY: build
-# generate build
-build:
-	go build -o server main.go
-
-.PHONY: sql
-# generate sql
-sql:
+.PHONY: gen
+# generate gen
+gen:
 	gentool -dsn "root:123456@tcp(127.0.0.1:3306)/go-layout?charset=utf8mb4&parseTime=True&loc=Local" --modelPkgName="./internal/data/model" -outPath="./internal/data/gen"
-
-.PHONY: configs
-# generate configs
-configs:
-	kratos proto client configs/conf/conf.proto
-	rm -rf openapi.yaml
 
 # show help
 help:

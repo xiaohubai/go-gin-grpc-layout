@@ -1,3 +1,14 @@
+app:
+  name: go-gin-grpc-layout
+  env: test
+  version: 0.0.1
+  id: 127.0.0.1
+
+remote:
+  type: etcd
+  endpoint: 127.0.0.1:2379
+  timeout: 5s
+
 server:
   http:
     addr: 0.0.0.0:8000

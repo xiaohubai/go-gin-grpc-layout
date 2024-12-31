@@ -1,51 +1,24 @@
 package config
 
 import (
-	"context"
-	"flag"
-	"time"
+	"errors"
 
 	"github.com/spf13/viper"
+	"github.com/xiaohubai/go-gin-grpc-layout/pkg/utils/strings"
 )
 
-type Configs struct {
-	App    `json:"app" yaml:"app"`
-	Remote `json:"remote" yaml:"remote"`
-}
-
-type App struct {
-	Name    string `json:"name" yaml:"name"`
-	Env     string `json:"env" yaml:"env"`
-	Version string `json:"version" yaml:"version"`
-	ID      string `json:"id" yaml:"id"`
-}
-
-type Remote struct {
-	Type      string        `json:"type" yaml:"type"`
-	Endpoints []string      `json:"endpoints" yaml:"endpoints"`
-	Timeout   time.Duration `json:"timeout" yaml:"timeout"`
-}
-
-var configs string
-var c Configs
-
-func GetAppConfigs() *Configs {
-	return &c
-}
-
-func InitConfig[T any](ctx context.Context, conf ...string) (*T, error) {
-	flag.StringVar(&configs, "configs", "./configs/app.toml", "app config file")
-	flag.Parse()
-	if err := newFileConf(configs, &c); err != nil {
-		return nil, err
+func Read[T any](conf string) (*T, error) {
+	if strings.IsEmpty(conf) {
+		return nil, errors.New("config file path is empty")
 	}
 
 	var t T
-	if c.App.Env == "test" {
-		if err := newFileConf(conf[0], &t); err != nil {
-			return nil, err
-		}
+
+	err := newFileConf(conf, &t)
+	if err != nil {
+		return nil, err
 	}
+
 	return &t, nil
 }
 
@@ -61,23 +34,3 @@ func newFileConf(filePath string, c any) error {
 	}
 	return nil
 }
-
-/*
-func newRemoteConf(ctx context.Context, remote *Remote, c any) error {
-	switch remote.Type {
-	case "etcd":
-		conf := etcd.Conf{
-			Endpoints: remote.Endpoints,
-			Timeout:   remote.Timeout,
-		}
-		e, err := etcd.NewConf(conf)
-		if err != nil {
-			return err
-		}
-
-		ss, err := e.GetKV(ctx, "configs")
-		return
-	}
-	return errors.New("empty remote type source")
-}
-*/
