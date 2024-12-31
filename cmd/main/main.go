@@ -4,9 +4,9 @@ import (
 	"flag"
 
 	"github.com/go-kratos/kratos/v2"
-	"github.com/xiaohubai/go-gin-grpc-layout/internal/data"
 	"github.com/xiaohubai/go-gin-grpc-layout/internal/pkg/conf"
 	"github.com/xiaohubai/go-gin-grpc-layout/internal/server"
+	"github.com/xiaohubai/go-gin-grpc-layout/internal/service"
 	"github.com/xiaohubai/go-gin-grpc-layout/pkg/config"
 	"github.com/xiaohubai/go-gin-grpc-layout/pkg/log"
 
@@ -25,9 +25,9 @@ func main() {
 		panic(err)
 	}
 
-	if err := data.Init(&c.Data); err != nil {
+	/* if err := data.Init(&c.Data); err != nil {
 		panic(err)
-	}
+	} */
 
 	app := kratos.New(
 		kratos.ID(c.ID),
@@ -35,8 +35,8 @@ func main() {
 		kratos.Version(c.Version),
 		kratos.Metadata(map[string]string{}),
 		kratos.Server(
-			server.NewHTTPServer(&c.Server),
-			server.NewGRPCServer(&c.Server),
+			server.NewHTTPServer(&c.Server, service.NewHTTPService()),
+			server.NewGRPCServer(&c.Server, service.NewGRPCService()),
 		),
 	)
 

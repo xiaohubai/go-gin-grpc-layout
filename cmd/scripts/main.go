@@ -13,18 +13,12 @@ var rootCmd = &cobra.Command{
 	},
 }
 
-func Execute() {
-	rootCmd.PersistentFlags().StringVarP(&appConf, "app_conf", "", "app.yaml", "环境配置")
-
-	cobra.CheckErr(rootCmd.Execute())
-}
-
-// 公用变量
 var (
 	appConf   string
 	startDate string
 )
 
 func main() {
-	Execute()
+	rootCmd.PersistentFlags().StringVarP(&appConf, "app_conf", "", "app.yaml", "环境配置")
+	cobra.CheckErr(rootCmd.Execute())
 }
