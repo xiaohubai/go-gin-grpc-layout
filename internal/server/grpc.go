@@ -7,11 +7,11 @@ import (
 	"github.com/spf13/viper"
 
 	v1 "github.com/xiaohubai/go-gin-grpc-layout/api/grpc/v1"
-	"github.com/xiaohubai/go-gin-grpc-layout/internal/pkg/conf"
 	"github.com/xiaohubai/go-gin-grpc-layout/internal/service"
+	"github.com/xiaohubai/go-gin-grpc-layout/pkg/config"
 )
 
-func NewGRPCServer(c *conf.Server, sg *service.GRPCService) *grpc.Server {
+func NewGRPCServer(c *config.Server, sg *service.GRPCService) *grpc.Server {
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			recovery.Recovery(),

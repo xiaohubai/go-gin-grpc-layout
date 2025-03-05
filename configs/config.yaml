@@ -29,10 +29,10 @@ data:
     readTimeout: 0.4s
     writeTimeout: 0.6s
 
-logs:
+log:
   level: "info"
   format: "json"
-  filename: "./logs/server"
+  fileName: "./logs/server"
   maxSize: 1
   maxBackups: 3
   maxAge: 7

@@ -8,20 +8,18 @@ option java_package = "api.grpc.v1";
 
 import "validate/validate.proto";
 
-// Grpc服务
+// Grpc 服务定义
 service Grpc {
-  //获取用户信息
-  rpc GetUserInfo(UserInfoRequest) returns (UserInfoResponse);
+  // Login 登录
+  rpc Login(LoginRequest) returns (LoginResponse); 
 }
 
-//获取用户信息请求结构体
-message UserInfoRequest {
-  //用户名
-  string userName = 1 [ (buf.validate.field).string = {min_len : 3, max_len : 11} ];
+// LoginRequest 登录请求
+message LoginRequest {
+  string userName = 1 [ (buf.validate.field).string = {min_len : 3, max_len : 11} ]; // 用户名
 }
 
-//获取用户信息返回结构体
-message UserInfoResponse {
-  //返回码
-  int32 code = 1;
+// LoginResponse 登录响应
+message LoginResponse {
+  string userName = 1;
 }

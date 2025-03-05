@@ -1,4 +1,4 @@
-package request
+package gh
 
 import (
 	"fmt"
@@ -12,6 +12,11 @@ func ShouldBindJSON(c *gin.Context, req any) error {
 	if err != nil {
 		return err
 	}
+
+	return nil
+}
+
+func Validate(req any) error {
 	refReq := reflect.ValueOf(req)
 	res := refReq.MethodByName("ValidateAll").Call(nil)[0]
 	if !res.IsNil() {

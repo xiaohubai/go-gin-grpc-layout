@@ -6,25 +6,37 @@ import (
 
 	"github.com/redis/go-redis/v9"
 
-	"github.com/xiaohubai/go-gin-grpc-layout/internal/data/gen"
-	"github.com/xiaohubai/go-gin-grpc-layout/internal/pkg/conf"
+	"github.com/xiaohubai/go-gin-grpc-layout/pkg/config"
+	pgorm "github.com/xiaohubai/go-gin-grpc-layout/pkg/gorm"
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"gorm.io/gorm/schema"
 )
+
+var data Data
 
 func New() *Data {
 	return &data
 }
 
 type Data struct {
-	db  *gen.Query
+	db  *gorm.DB
 	rdb *redis.Client
 }
 
-var data Data
+func NewModel(tx ...*pgorm.DB) *pgorm.Model {
+	if len(tx) > 0 && tx[0] != nil {
+		return pgorm.NewModel(tx[0])
+	}
 
-func Init(c *conf.Data) error {
+	return pgorm.NewModel(data.db)
+}
+
+func NewCrud[T any](tx ...*gorm.DB) *pgorm.Crud[T] {
+	return pgorm.NewCrud[T](NewModel(tx...))
+}
+
+func Init(c *config.Data) error {
 	mysqlConfig := mysql.Config{
 		DSN:                       c.MySQL.Source, // DSN data source name
 		DefaultStringSize:         191,            // string 类型字段的默认长度
@@ -59,7 +71,7 @@ func Init(c *conf.Data) error {
 	}
 
 	data = Data{
-		db:  gen.Use(db),
+		db:  db,
 		rdb: rdb,
 	}
 

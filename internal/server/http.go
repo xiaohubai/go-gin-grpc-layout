@@ -4,11 +4,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-kratos/kratos/v2/transport/http"
 	"github.com/spf13/viper"
-	"github.com/xiaohubai/go-gin-grpc-layout/internal/pkg/conf"
 	"github.com/xiaohubai/go-gin-grpc-layout/internal/service"
+	"github.com/xiaohubai/go-gin-grpc-layout/pkg/config"
+	"github.com/xiaohubai/go-gin-grpc-layout/pkg/gh"
 )
 
-func NewHTTPServer(c *conf.Server, sh *service.HTTPService) *http.Server {
+func NewHTTPServer(c *config.Server, sh *service.HTTPService) *http.Server {
 	var opts = []http.ServerOption{}
 	if c.HTTP.Network != "" {
 		opts = append(opts, http.Network(c.HTTP.Network))
@@ -28,10 +29,9 @@ func routers(s *service.HTTPService) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
 
-	r1 := router.Group("")
+	r := router.Group("")
 	{
-		r1.GET("/test", s.Test)       //登录
-		r1.POST("/v1/login", s.Login) //登录
+		r.POST("/v1/login", gh.Wrap(s.Login)) //登录
 	}
 
 	return router
