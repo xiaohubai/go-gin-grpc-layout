@@ -10,38 +10,40 @@ networks:
 services:
   #### mysql ####
   mysql:
-    image: bitnami/mysql:8.0
+    image: bitnami/mysql:8.4
     container_name: mysql
-    restart: always
+    restart: unless-stopped
     ports:
       - "3306:3306"
     volumes:
-      - /usr/local/volumes/mysql:/bitnami/mysql
+      - /usr/local/volumes/mysql/data:/bitnami/mysql/data
+      - /etc/localtime:/etc/localtime:ro
     environment:
-      - TZ=Asia/Shanghai
-      - MYSQL_ROOT_USER=root
+      - ALLOW_EMPTY_PASSWORD=no
       - MYSQL_ROOT_PASSWORD=123456
       - MYSQL_DATABASE=go-layout
       - MYSQL_CHARACTER_SET=utf8mb4
       - MYSQL_COLLATE=utf8mb4_general_ci
-      - MYSQL_AUTHENTICATION_PLUGIN=mysql_native_password
+      - MYSQL_DEFAULT_AUTHENTICATION_PLUGIN=mysql_native_password
     networks:
       network:
         ipv4_address: 172.21.0.11
 
   #### redis ####
   redis:
-    image: bitnami/redis:7.2
+    image: bitnami/redis:7.4
     container_name: redis
-    restart: always
+    restart: unless-stopped
     ports:
       - "6379:6379"
-    command: redis-server --appendonly yes --requirepass "123456"
     volumes:
-      - /usr/local/volumes/redis/redis.conf:/etc/redis.conf
-      - /usr/local/volumes/redis/data:/data
+      - /etc/localtime:/etc/localtime:ro
+      - /usr/local/volumes/redis/redis.conf:/opt/bitnami/redis/mounted-etc/redis.conf
+      - /usr/local/volumes/redis/data:/bitnami/redis/data
     environment:
-      - TZ=Asia/Shanghai
+      - ALLOW_EMPTY_PASSWORD=no
+      - REDIS_PASSWORD=123456
+      - REDIS_DATABASE=0
     networks:
       network:
         ipv4_address: 172.21.0.12
