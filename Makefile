@@ -22,7 +22,6 @@ init:
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	go install github.com/go-kratos/kratos/cmd/kratos/v2@latest
 	go install github.com/go-kratos/kratos/cmd/protoc-gen-go-http/v2@latest
-	go install github.com/envoyproxy/protoc-gen-validate@latest
 
 .PHONY: api
 # generate api proto
@@ -36,10 +35,10 @@ api:
 	       $(API_PROTO_FILES)
 
 
-.PHONY: gen
-# generate gen
-gen:
-	gentool -dsn "root:123456@tcp(127.0.0.1:3306)/go-layout?charset=utf8mb4&parseTime=True&loc=Local" --modelPkgName="./internal/data/model" -outPath="./internal/data/gen"
+.PHONY: gentool
+# generate gentool
+gentool:
+	gentool -dsn "root:123456@tcp(127.0.0.1:3306)/go-layout?charset=utf8mb4&parseTime=True&loc=Local" --onlyModel --modelPkgName="./internal/data/gen/model" -outPath="./internal/data/gen"
 
 # show help
 help:
