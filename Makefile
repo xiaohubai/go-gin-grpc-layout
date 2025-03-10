@@ -22,6 +22,7 @@ init:
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	go install github.com/go-kratos/kratos/cmd/kratos/v2@latest
 	go install github.com/go-kratos/kratos/cmd/protoc-gen-go-http/v2@latest
+	go install github.com/mitchellh/protoc-gen-go-json@latest
 
 .PHONY: api
 # generate api proto
@@ -29,16 +30,20 @@ api:
 	protoc --proto_path=./api \
 	       --proto_path=./third_party \
 		   --go_out=paths=source_relative:./api \
+		   --go-json_out=paths=source_relative:./api \
  	       --go-http_out=paths=source_relative:./api \
  	       --go-grpc_out=paths=source_relative:./api \
 		   --validate_out=paths=source_relative,lang=go:./api \
 	       $(API_PROTO_FILES)
 
+	sh scripts/remove-omitempty.sh
+
+
 
 .PHONY: gentool
 # generate gentool
 gentool:
-	gentool -dsn "root:123456@tcp(127.0.0.1:3306)/go-layout?charset=utf8mb4&parseTime=True&loc=Local" --onlyModel --modelPkgName="./internal/data/gen/model" -outPath="./internal/data/gen"
+	go run ./scripts/gentool/main.go
 
 # show help
 help:

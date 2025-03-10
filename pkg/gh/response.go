@@ -31,13 +31,13 @@ func result(ctx *gin.Context, code int, data any, msg string) {
 		Code:      code,
 		Data:      data,
 		Msg:       msg,
-		RequestID: "3224khhk3-324532jkbk",
+		RequestID: ctx.GetString("requestId"),
 	}
 	ctx.JSON(http.StatusOK, resp)
 }
 
 func success(ctx *gin.Context, data any) {
-	result(ctx, 0, data, "")
+	result(ctx, 0, data, "success")
 }
 
 func fail(ctx *gin.Context, codeMsg CodeMsg) {

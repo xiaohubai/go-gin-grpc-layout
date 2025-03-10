@@ -23,7 +23,8 @@ func Read[T any](filePath string) (*T, error) {
 }
 
 func newFileConf(filePath string, c any) error {
-	ext := filepath.Ext(filePath)
+	ext := filepath.Ext(filePath)[1:]
+
 	if !utils.ContainsString([]string{"yaml", "yml", "toml"}, ext) {
 		return errors.New("unsupported config file extension: " + ext)
 	}

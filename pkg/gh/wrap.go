@@ -5,6 +5,7 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/google/uuid"
 )
 
 // Wrap 泛型函数，封装请求处理逻辑，自动解析参数并处理错误
@@ -17,7 +18,7 @@ func Wrap[T any, R any](run func(c *gin.Context, req *T) (R, error)) gin.Handler
 		switch c.ContentType() {
 		// application/json
 		case gin.MIMEJSON:
-			err = ShouldBindJSON(c, &reqModel)
+			err = c.ShouldBindJSON(&reqModel)
 		// application/x-www-form-urlencoded
 		case gin.MIMEPOSTForm:
 			err = c.ShouldBind(&reqModel)
@@ -25,25 +26,31 @@ func Wrap[T any, R any](run func(c *gin.Context, req *T) (R, error)) gin.Handler
 		case gin.MIMEMultipartPOSTForm:
 			err = c.ShouldBind(&reqModel)
 		default:
-			err = fmt.Errorf("unsupported content type: %s", contentType)
+			err := fmt.Errorf("unsupported content type: %s", contentType)
+			c.JSON(400, gin.H{"error": err.Error()})
+			return
 		}
 
 		// 参数解析
 		if err != nil {
-			c.JSON(400, gin.H{"error": err.Error()})
+			fail(c, CodeMsg{Code: 1002, Msg: fmt.Sprintf("invalid params: %v", err)})
 			return
 		}
 
 		// 参数校验
 		if err := Validate(&reqModel); err != nil {
 			fail(c, CodeMsg{Code: 1002, Msg: fmt.Sprintf("invalid params: %v", err)})
-
+			return
 		}
+
+		// 生成请求ID
+		c.Set("requestId", uuid.NewString())
 
 		// 执行业务逻辑
 		result, err := run(c, &reqModel)
 		if err == nil {
 			success(c, result)
+			return
 		}
 
 		// 业务逻辑错误处理

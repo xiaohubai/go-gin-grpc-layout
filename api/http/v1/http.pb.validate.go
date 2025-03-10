@@ -57,7 +57,7 @@ func (m *LoginRequest) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for Username
+	// no validation rules for UserName
 
 	// no validation rules for Password
 
@@ -164,35 +164,9 @@ func (m *LoginResponse) validate(all bool) error {
 
 	var errors []error
 
-	// no validation rules for ID
-
-	// no validation rules for UID
+	// no validation rules for Uid
 
 	// no validation rules for UserName
-
-	// no validation rules for NickName
-
-	// no validation rules for Birth
-
-	// no validation rules for Avatar
-
-	// no validation rules for RoleID
-
-	// no validation rules for RoleName
-
-	// no validation rules for Phone
-
-	// no validation rules for Wechat
-
-	// no validation rules for Email
-
-	// no validation rules for State
-
-	// no validation rules for Motto
-
-	// no validation rules for Token
-
-	// no validation rules for RefreshToken
 
 	if len(errors) > 0 {
 		return LoginResponseMultiError(errors)

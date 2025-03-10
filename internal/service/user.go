@@ -12,5 +12,4 @@ func (s *HTTPService) Login(ctx *gin.Context, req *v1.LoginRequest) (*v1.LoginRe
 		return nil, code.WithError(code.LoginFailed, nil)
 	}
 	return resp, err
-
 }

@@ -19,10 +19,10 @@ func Init(cf *config.Log) error {
 	encoderConfig := zapcore.EncoderConfig{
 		LevelKey:       "level",
 		TimeKey:        "ts",
-		LineEnding:     zapcore.DefaultLineEnding,                              //默认换行
-		EncodeLevel:    zapcore.LowercaseLevelEncoder,                          //小写
-		EncodeTime:     zapcore.TimeEncoderOfLayout("2006-01-02 15:04:05.000"), //输出时间
-		EncodeCaller:   zapcore.ShortCallerEncoder,                             //记录调用路径
+		LineEnding:     zapcore.DefaultLineEnding,                          //默认换行
+		EncodeLevel:    zapcore.LowercaseLevelEncoder,                      //小写
+		EncodeTime:     zapcore.TimeEncoderOfLayout("2006-01-02 15:04:05"), //输出时间
+		EncodeCaller:   zapcore.ShortCallerEncoder,                         //记录调用路径
 		EncodeDuration: zapcore.SecondsDurationEncoder,
 	}
 
@@ -52,14 +52,17 @@ func Init(cf *config.Log) error {
 	return nil
 }
 
-func Info(msg string, str ...string) {
-	fields := []zapcore.Field{}
-	for i := 0; i < len(str); i += 2 {
-		fields = append(fields, zap.Any(str[i], fields[i+1]))
-	}
+func AddField(key string, value any) zapcore.Field {
+	return zap.Any(key, value)
+}
+func Info(msg string, fields ...zapcore.Field) {
 	zap.L().Info(msg, fields...)
 }
 
 func Error(msg string, fields ...zapcore.Field) {
+	zap.S().Error(msg, fields)
+}
+
+func Errorf(msg string, fields ...zapcore.Field) {
 	zap.S().Error(msg, fields)
 }

@@ -15,13 +15,13 @@ import (
 
 var data Data
 
-func New() *Data {
+func NewData() *Data {
 	return &data
 }
 
 type Data struct {
-	db  *gorm.DB
-	rdb *redis.Client
+	mysql *gorm.DB
+	redis *redis.Client
 }
 
 func NewModel(tx ...*pgorm.DB) *pgorm.Model {
@@ -29,7 +29,7 @@ func NewModel(tx ...*pgorm.DB) *pgorm.Model {
 		return pgorm.NewModel(tx[0])
 	}
 
-	return pgorm.NewModel(data.db)
+	return pgorm.NewModel(data.mysql)
 }
 
 func NewCrud[T any](tx ...*gorm.DB) *pgorm.Crud[T] {
@@ -71,8 +71,8 @@ func Init(c *config.Data) error {
 	}
 
 	data = Data{
-		db:  db,
-		rdb: rdb,
+		mysql: db,
+		redis: rdb,
 	}
 
 	return nil

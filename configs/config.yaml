@@ -20,11 +20,11 @@ server:
 data:
   mysql:
     driver: mysql
-    source: root:123456@tcp(127.0.0.1:3306)/go-layout?charset=utf8mb4&parseTime=True&loc=Local
+    source: root:4b21ac7296fdf64a2e72d1b77fe5866c@tcp(127.0.0.1:3306)/go-layout?charset=utf8mb4&parseTime=True&loc=Local
   redis:
     db: 0
     addr: 127.0.0.1:6379
-    password: "123456"
+    password: "c220e927b90466e41b772184bab2d376"
     dialTimeout: 1s
     readTimeout: 0.4s
     writeTimeout: 0.6s

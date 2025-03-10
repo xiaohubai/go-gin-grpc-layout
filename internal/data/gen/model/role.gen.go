@@ -4,16 +4,22 @@
 
 package model
 
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
+
 const TableNameRole = "role"
 
 // Role 角色表
 type Role struct {
-	ID        int64  `gorm:"column:id;primaryKey;autoIncrement:true;comment:ID" json:"id"` // ID
-	RoleID    int32  `gorm:"column:role_id;not null;comment:角色ID" json:"role_id"`          // 角色ID
-	RoleName  string `gorm:"column:role_name;not null;comment:角色名称" json:"role_name"`      // 角色名称
-	CreatedAt int64  `gorm:"column:created_at;not null;comment:创建时间" json:"created_at"`    // 创建时间
-	UpdatedAt int64  `gorm:"column:updated_at;not null;comment:更新时间" json:"updated_at"`    // 更新时间
-	ExtraInfo string `gorm:"column:extra_info;comment:补充信息" json:"extra_info"`             // 补充信息
+	ID        int64          `gorm:"column:id;primaryKey;autoIncrement:true;comment:ID" json:"id"`             // ID
+	RoleID    int32          `gorm:"column:role_id;not null;comment:角色ID" json:"role_id"`                      // 角色ID
+	RoleName  string         `gorm:"column:role_name;not null;comment:角色名称" json:"role_name"`                  // 角色名称
+	CreatedAt time.Time      `gorm:"column:created_at;not null;autoCreateTime;comment:创建时间" json:"created_at"` // 创建时间
+	UpdatedAt time.Time      `gorm:"column:updated_at;not null;autoUpdateTime;comment:更新时间" json:"updated_at"` // 更新时间
+	DeletedAt gorm.DeletedAt `gorm:"column:deleted_at;comment:删除时间" json:"deleted_at"`                         // 删除时间
 }
 
 // TableName Role's table name
