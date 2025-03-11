@@ -39,8 +39,6 @@ func main() {
 		panic(err)
 	}
 
-	log.Info("start server")
-
 	if err := data.Init(&cf.Data); err != nil {
 		panic(err)
 	}

@@ -11,7 +11,7 @@ type HTTPService struct {
 
 type GRPCService struct {
 	biz *biz.Usecase
-	v1.UnimplementedGrpcServer
+	v1.UnimplementedGRPCServer
 }
 
 func NewHTTPService() *HTTPService {

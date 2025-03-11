@@ -5,7 +5,7 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
+	"github.com/rs/xid"
 )
 
 // Wrap 泛型函数，封装请求处理逻辑，自动解析参数并处理错误
@@ -33,18 +33,18 @@ func Wrap[T any, R any](run func(c *gin.Context, req *T) (R, error)) gin.Handler
 
 		// 参数解析
 		if err != nil {
-			fail(c, CodeMsg{Code: 1002, Msg: fmt.Sprintf("invalid params: %v", err)})
+			fail(c, CodeMsg{Code: 4001, Msg: fmt.Sprintf("invalid params: %v", err)})
 			return
 		}
 
 		// 参数校验
 		if err := Validate(&reqModel); err != nil {
-			fail(c, CodeMsg{Code: 1002, Msg: fmt.Sprintf("invalid params: %v", err)})
+			fail(c, CodeMsg{Code: 4001, Msg: fmt.Sprintf("invalid params: %v", err)})
 			return
 		}
 
 		// 生成请求ID
-		c.Set("requestId", uuid.NewString())
+		c.Set("requestId", xid.New().String())
 
 		// 执行业务逻辑
 		result, err := run(c, &reqModel)
@@ -59,6 +59,6 @@ func Wrap[T any, R any](run func(c *gin.Context, req *T) (R, error)) gin.Handler
 			return
 		}
 
-		fail(c, CodeMsg{Code: 1001, Msg: fmt.Sprintf("err: %v", err)})
+		fail(c, CodeMsg{Code: 4000, Msg: fmt.Sprintf("err: %v", err)})
 	}
 }

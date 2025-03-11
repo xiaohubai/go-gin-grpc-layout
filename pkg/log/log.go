@@ -3,8 +3,8 @@ package log
 import (
 	"fmt"
 	"os"
-	"time"
 
+	"github.com/gin-gonic/gin"
 	"github.com/xiaohubai/go-gin-grpc-layout/pkg/config"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
@@ -28,10 +28,10 @@ func Init(cf *config.Log) error {
 
 	// 配置日志文件写入器
 	fileWriter := &lumberjack.Logger{
-		Filename:   fmt.Sprintf("%s/%s.log", cf.FileName, time.Now().Format("2006010213")),
-		MaxSize:    int(cf.MaxSize),
-		MaxBackups: int(cf.MaxBackups),
-		MaxAge:     int(cf.MaxAge),
+		Filename:   cf.FileName,
+		MaxSize:    cf.MaxSize,
+		MaxBackups: cf.MaxBackups,
+		MaxAge:     cf.MaxAge,
 		Compress:   cf.Compress,
 	}
 
@@ -55,14 +55,17 @@ func Init(cf *config.Log) error {
 func AddField(key string, value any) zapcore.Field {
 	return zap.Any(key, value)
 }
-func Info(msg string, fields ...zapcore.Field) {
+func Info(cxt *gin.Context, msg string, fields ...zapcore.Field) {
+	fields = append(fields, zap.String("requestId", cxt.GetString("requestId")))
 	zap.L().Info(msg, fields...)
 }
 
-func Error(msg string, fields ...zapcore.Field) {
+func Error(cxt *gin.Context, msg string, fields ...zapcore.Field) {
+	fields = append(fields, zap.String("requestId", cxt.GetString("requestId")))
 	zap.S().Error(msg, fields)
 }
 
-func Errorf(msg string, fields ...zapcore.Field) {
+func Errorf(cxt *gin.Context, msg string, fields ...zapcore.Field) {
+	fields = append(fields, zap.String("requestId", cxt.GetString("requestId")))
 	zap.S().Error(msg, fields)
 }

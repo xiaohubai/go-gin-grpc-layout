@@ -28,10 +28,10 @@ func NewHTTPServer(c *config.Server, sh *service.HTTPService) *http.Server {
 func routers(s *service.HTTPService) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
-
-	r := router.Group("")
+	v1 := router.Group("v1")
 	{
-		r.POST("/v1/login", gh.Wrap(s.Login)) //登录
+		v1.POST("/test", gh.Wrap(s.Test))
+		v1.GET("/sse", gh.Wrap(s.SSE))
 	}
 
 	return router

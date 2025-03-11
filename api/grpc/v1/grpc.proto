@@ -2,24 +2,27 @@ syntax = "proto3";
 
 package api.grpc.v1;
 
+import "validate/validate.proto";
+
 option go_package = "github.com/xiaohubai/go-gin-grpc-layout/api/grpc/v1;v1";
 option java_multiple_files = true;
 option java_package = "api.grpc.v1";
 
-import "validate/validate.proto";
 
-// Grpc 服务定义
-service Grpc {
-  // Login 登录
-  rpc Login(LoginRequest) returns (LoginResponse); 
+// GRPC 服务定义
+service GRPC {
+  // Test 登录
+  rpc Test(TestRequest) returns (TestResponse); 
 }
 
-// LoginRequest 登录请求
-message LoginRequest {
-  string userName = 1 [ (buf.validate.field).string = {min_len : 3, max_len : 11} ]; // 用户名
+// TestRequest 测试请求
+message TestRequest {
+  string ID = 1 [ (validate.rules).string.len = 6 ];
+  //string ID = 1;
 }
 
-// LoginResponse 登录响应
-message LoginResponse {
-  string userName = 1;
+// TestResponse 测试响应
+message TestResponse {
+  string ID = 1;
+  string Message = 2;
 }

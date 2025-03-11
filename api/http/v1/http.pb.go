@@ -7,7 +7,6 @@
 package v1
 
 import (
-	_ "buf.build/gen/go/bufbuild/protovalidate/protocolbuffers/go/buf/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -22,30 +21,28 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type LoginRequest struct {
+// test
+type TestRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	UserName      string                 `protobuf:"bytes,1,opt,name=userName,proto3" json:"userName"`   //用户名
-	Password      string                 `protobuf:"bytes,2,opt,name=password,proto3" json:"password"`   //密码
-	Captcha       string                 `protobuf:"bytes,3,opt,name=captcha,proto3" json:"captcha"`     //验证码
-	CaptchaID     string                 `protobuf:"bytes,4,opt,name=captchaID,proto3" json:"captchaID"` //校验ID
+	ID            string                 `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *LoginRequest) Reset() {
-	*x = LoginRequest{}
+func (x *TestRequest) Reset() {
+	*x = TestRequest{}
 	mi := &file_http_v1_http_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *LoginRequest) String() string {
+func (x *TestRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*LoginRequest) ProtoMessage() {}
+func (*TestRequest) ProtoMessage() {}
 
-func (x *LoginRequest) ProtoReflect() protoreflect.Message {
+func (x *TestRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_http_v1_http_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -57,61 +54,40 @@ func (x *LoginRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LoginRequest.ProtoReflect.Descriptor instead.
-func (*LoginRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use TestRequest.ProtoReflect.Descriptor instead.
+func (*TestRequest) Descriptor() ([]byte, []int) {
 	return file_http_v1_http_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *LoginRequest) GetUserName() string {
+func (x *TestRequest) GetID() string {
 	if x != nil {
-		return x.UserName
+		return x.ID
 	}
 	return ""
 }
 
-func (x *LoginRequest) GetPassword() string {
-	if x != nil {
-		return x.Password
-	}
-	return ""
-}
-
-func (x *LoginRequest) GetCaptcha() string {
-	if x != nil {
-		return x.Captcha
-	}
-	return ""
-}
-
-func (x *LoginRequest) GetCaptchaID() string {
-	if x != nil {
-		return x.CaptchaID
-	}
-	return ""
-}
-
-type LoginResponse struct {
+type TestResponse struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
-	Uid           string                 `protobuf:"bytes,1,opt,name=uid,proto3" json:"uid"`
-	UserName      string                 `protobuf:"bytes,2,opt,name=userName,proto3" json:"userName"`
+	ID            string                 `protobuf:"bytes,1,opt,name=ID,proto3" json:"ID,omitempty"`
+	Message       string                 `protobuf:"bytes,2,opt,name=Message,proto3" json:"Message,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
-func (x *LoginResponse) Reset() {
-	*x = LoginResponse{}
+func (x *TestResponse) Reset() {
+	*x = TestResponse{}
 	mi := &file_http_v1_http_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
 
-func (x *LoginResponse) String() string {
+func (x *TestResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*LoginResponse) ProtoMessage() {}
+func (*TestResponse) ProtoMessage() {}
 
-func (x *LoginResponse) ProtoReflect() protoreflect.Message {
+func (x *TestResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_http_v1_http_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -123,23 +99,96 @@ func (x *LoginResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use LoginResponse.ProtoReflect.Descriptor instead.
-func (*LoginResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use TestResponse.ProtoReflect.Descriptor instead.
+func (*TestResponse) Descriptor() ([]byte, []int) {
 	return file_http_v1_http_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *LoginResponse) GetUid() string {
+func (x *TestResponse) GetID() string {
 	if x != nil {
-		return x.Uid
+		return x.ID
 	}
 	return ""
 }
 
-func (x *LoginResponse) GetUserName() string {
+func (x *TestResponse) GetMessage() string {
 	if x != nil {
-		return x.UserName
+		return x.Message
 	}
 	return ""
+}
+
+// sse
+type SSERequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SSERequest) Reset() {
+	*x = SSERequest{}
+	mi := &file_http_v1_http_proto_msgTypes[2]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SSERequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SSERequest) ProtoMessage() {}
+
+func (x *SSERequest) ProtoReflect() protoreflect.Message {
+	mi := &file_http_v1_http_proto_msgTypes[2]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SSERequest.ProtoReflect.Descriptor instead.
+func (*SSERequest) Descriptor() ([]byte, []int) {
+	return file_http_v1_http_proto_rawDescGZIP(), []int{2}
+}
+
+type SSEResponse struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *SSEResponse) Reset() {
+	*x = SSEResponse{}
+	mi := &file_http_v1_http_proto_msgTypes[3]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *SSEResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*SSEResponse) ProtoMessage() {}
+
+func (x *SSEResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_http_v1_http_proto_msgTypes[3]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use SSEResponse.ProtoReflect.Descriptor instead.
+func (*SSEResponse) Descriptor() ([]byte, []int) {
+	return file_http_v1_http_proto_rawDescGZIP(), []int{3}
 }
 
 var File_http_v1_http_proto protoreflect.FileDescriptor
@@ -147,27 +196,19 @@ var File_http_v1_http_proto protoreflect.FileDescriptor
 var file_http_v1_http_proto_rawDesc = string([]byte{
 	0x0a, 0x12, 0x68, 0x74, 0x74, 0x70, 0x2f, 0x76, 0x31, 0x2f, 0x68, 0x74, 0x74, 0x70, 0x2e, 0x70,
 	0x72, 0x6f, 0x74, 0x6f, 0x12, 0x0b, 0x61, 0x70, 0x69, 0x2e, 0x68, 0x74, 0x74, 0x70, 0x2e, 0x76,
-	0x31, 0x1a, 0x17, 0x76, 0x61, 0x6c, 0x69, 0x64, 0x61, 0x74, 0x65, 0x2f, 0x76, 0x61, 0x6c, 0x69,
-	0x64, 0x61, 0x74, 0x65, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x9c, 0x01, 0x0a, 0x0c, 0x4c,
-	0x6f, 0x67, 0x69, 0x6e, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x25, 0x0a, 0x08, 0x75,
-	0x73, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x42, 0x09, 0xba,
-	0x48, 0x06, 0x72, 0x04, 0x10, 0x03, 0x18, 0x0b, 0x52, 0x08, 0x75, 0x73, 0x65, 0x72, 0x4e, 0x61,
-	0x6d, 0x65, 0x12, 0x23, 0x0a, 0x08, 0x70, 0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x42, 0x07, 0xba, 0x48, 0x04, 0x72, 0x02, 0x10, 0x06, 0x52, 0x08, 0x70,
-	0x61, 0x73, 0x73, 0x77, 0x6f, 0x72, 0x64, 0x12, 0x22, 0x0a, 0x07, 0x63, 0x61, 0x70, 0x74, 0x63,
-	0x68, 0x61, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x42, 0x08, 0xba, 0x48, 0x05, 0x72, 0x03, 0x98,
-	0x01, 0x06, 0x52, 0x07, 0x63, 0x61, 0x70, 0x74, 0x63, 0x68, 0x61, 0x12, 0x1c, 0x0a, 0x09, 0x63,
-	0x61, 0x70, 0x74, 0x63, 0x68, 0x61, 0x49, 0x44, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x09,
-	0x63, 0x61, 0x70, 0x74, 0x63, 0x68, 0x61, 0x49, 0x44, 0x22, 0x3d, 0x0a, 0x0d, 0x4c, 0x6f, 0x67,
-	0x69, 0x6e, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x10, 0x0a, 0x03, 0x75, 0x69,
-	0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x03, 0x75, 0x69, 0x64, 0x12, 0x1a, 0x0a, 0x08,
-	0x75, 0x73, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x08,
-	0x75, 0x73, 0x65, 0x72, 0x4e, 0x61, 0x6d, 0x65, 0x42, 0x47, 0x0a, 0x0b, 0x61, 0x70, 0x69, 0x2e,
-	0x68, 0x74, 0x74, 0x70, 0x2e, 0x76, 0x31, 0x50, 0x01, 0x5a, 0x36, 0x67, 0x69, 0x74, 0x68, 0x75,
-	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x69, 0x61, 0x6f, 0x68, 0x75, 0x62, 0x61, 0x69, 0x2f,
-	0x67, 0x6f, 0x2d, 0x67, 0x69, 0x6e, 0x2d, 0x67, 0x72, 0x70, 0x63, 0x2d, 0x6c, 0x61, 0x79, 0x6f,
-	0x75, 0x74, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x68, 0x74, 0x74, 0x70, 0x2f, 0x76, 0x31, 0x3b, 0x76,
-	0x31, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x31, 0x22, 0x1d, 0x0a, 0x0b, 0x54, 0x65, 0x73, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
+	0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44,
+	0x22, 0x38, 0x0a, 0x0c, 0x54, 0x65, 0x73, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44,
+	0x12, 0x18, 0x0a, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x0c, 0x0a, 0x0a, 0x53, 0x53,
+	0x45, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x22, 0x0d, 0x0a, 0x0b, 0x53, 0x53, 0x45, 0x52,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x47, 0x0a, 0x0b, 0x61, 0x70, 0x69, 0x2e, 0x68,
+	0x74, 0x74, 0x70, 0x2e, 0x76, 0x31, 0x50, 0x01, 0x5a, 0x36, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62,
+	0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x78, 0x69, 0x61, 0x6f, 0x68, 0x75, 0x62, 0x61, 0x69, 0x2f, 0x67,
+	0x6f, 0x2d, 0x67, 0x69, 0x6e, 0x2d, 0x67, 0x72, 0x70, 0x63, 0x2d, 0x6c, 0x61, 0x79, 0x6f, 0x75,
+	0x74, 0x2f, 0x61, 0x70, 0x69, 0x2f, 0x68, 0x74, 0x74, 0x70, 0x2f, 0x76, 0x31, 0x3b, 0x76, 0x31,
+	0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 })
 
 var (
@@ -182,10 +223,12 @@ func file_http_v1_http_proto_rawDescGZIP() []byte {
 	return file_http_v1_http_proto_rawDescData
 }
 
-var file_http_v1_http_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
+var file_http_v1_http_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
 var file_http_v1_http_proto_goTypes = []any{
-	(*LoginRequest)(nil),  // 0: api.http.v1.LoginRequest
-	(*LoginResponse)(nil), // 1: api.http.v1.LoginResponse
+	(*TestRequest)(nil),  // 0: api.http.v1.TestRequest
+	(*TestResponse)(nil), // 1: api.http.v1.TestResponse
+	(*SSERequest)(nil),   // 2: api.http.v1.SSERequest
+	(*SSEResponse)(nil),  // 3: api.http.v1.SSEResponse
 }
 var file_http_v1_http_proto_depIdxs = []int32{
 	0, // [0:0] is the sub-list for method output_type
@@ -206,7 +249,7 @@ func file_http_v1_http_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_http_v1_http_proto_rawDesc), len(file_http_v1_http_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   2,
+			NumMessages:   4,
 			NumExtensions: 0,
 			NumServices:   0,
 		},

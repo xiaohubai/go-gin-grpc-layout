@@ -2,7 +2,6 @@ package server
 
 import (
 	"github.com/go-kratos/kratos/v2/middleware/recovery"
-	"github.com/go-kratos/kratos/v2/middleware/validate"
 	"github.com/go-kratos/kratos/v2/transport/grpc"
 	"github.com/spf13/viper"
 
@@ -15,7 +14,6 @@ func NewGRPCServer(c *config.Server, sg *service.GRPCService) *grpc.Server {
 	var opts = []grpc.ServerOption{
 		grpc.Middleware(
 			recovery.Recovery(),
-			validate.Validator(),
 		),
 	}
 	if c.GRPC.Network != "" {
@@ -28,6 +26,6 @@ func NewGRPCServer(c *config.Server, sg *service.GRPCService) *grpc.Server {
 		opts = append(opts, grpc.Timeout(viper.GetDuration(c.GRPC.Timeout)))
 	}
 	srv := grpc.NewServer(opts...)
-	v1.RegisterGrpcServer(srv, sg)
+	v1.RegisterGRPCServer(srv, sg)
 	return srv
 }
