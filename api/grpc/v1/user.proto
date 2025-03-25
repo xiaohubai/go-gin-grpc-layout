@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+package api.grpc.v1;
+
+option go_package = "github.com/xiaohubai/go-gin-grpc-layout/api/grpc/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.grpc.v1";
+
+
+// GRPC 服务定义
+service UserGRPC {
+  // Login 
+  rpc Login(LoginRequest) returns (LoginResponse); 
+  // UserInfo
+  rpc UserInfo(UserInfoRequest) returns (UserInfoResponse);
+}
+
+// login
+message LoginRequest {
+  string UserName = 1;
+  string PassWord = 2;
+}
+message LoginResponse {
+  string Token = 1;
+}
+
+// userinfo
+message UserInfoRequest {
+  string UserName = 1;
+  string Token = 2;
+}
+message UserInfoResponse {
+  string UserName = 1;
+  string RoleID = 2;
+}

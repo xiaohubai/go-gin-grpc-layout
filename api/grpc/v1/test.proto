@@ -2,8 +2,6 @@ syntax = "proto3";
 
 package api.grpc.v1;
 
-import "validate/validate.proto";
-
 option go_package = "github.com/xiaohubai/go-gin-grpc-layout/api/grpc/v1;v1";
 option java_multiple_files = true;
 option java_package = "api.grpc.v1";
@@ -11,14 +9,13 @@ option java_package = "api.grpc.v1";
 
 // GRPC 服务定义
 service GRPC {
-  // Test 登录
+  // Test 测试
   rpc Test(TestRequest) returns (TestResponse); 
 }
 
 // TestRequest 测试请求
 message TestRequest {
-  string ID = 1 [ (validate.rules).string.len = 6 ];
-  //string ID = 1;
+  string ID = 1;
 }
 
 // TestResponse 测试响应

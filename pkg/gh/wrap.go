@@ -31,14 +31,8 @@ func Wrap[T any, R any](run func(c *gin.Context, req *T) (R, error)) gin.Handler
 			return
 		}
 
-		// 参数解析
-		if err != nil {
-			fail(c, CodeMsg{Code: 4001, Msg: fmt.Sprintf("invalid params: %v", err)})
-			return
-		}
-
-		// 参数校验
-		if err := Validate(&reqModel); err != nil {
+		// 参数解析/校验
+		if err != nil || Validate(&reqModel) != nil {
 			fail(c, CodeMsg{Code: 4001, Msg: fmt.Sprintf("invalid params: %v", err)})
 			return
 		}

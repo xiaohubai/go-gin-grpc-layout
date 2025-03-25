@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package api.http.v1;
+
+
+option go_package = "github.com/xiaohubai/go-gin-grpc-layout/api/http/v1;v1";
+option java_multiple_files = true;
+option java_package = "api.http.v1";
+
+
+// login
+message LoginRequest {
+  string UserName = 1;
+  string PassWord = 2;
+}
+message LoginResponse {
+  string Token = 1;
+}
+
+// userinfo
+message UserInfoRequest {
+  string UserName = 1;
+  string Token = 2;
+}
+message UserInfoResponse {
+  string UserName = 1;
+  int32 RoleID = 2;
+}

@@ -3,6 +3,7 @@ package log
 import (
 	"fmt"
 	"os"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/xiaohubai/go-gin-grpc-layout/pkg/config"
@@ -12,13 +13,10 @@ import (
 )
 
 func Init(cf *config.Log) error {
-	if err := os.MkdirAll(cf.FileName, 0755); err != nil {
-		return fmt.Errorf("create log directory failed: %v", err)
-	}
-
 	encoderConfig := zapcore.EncoderConfig{
 		LevelKey:       "level",
 		TimeKey:        "ts",
+		NameKey:        "requestId",
 		LineEnding:     zapcore.DefaultLineEnding,                          //默认换行
 		EncodeLevel:    zapcore.LowercaseLevelEncoder,                      //小写
 		EncodeTime:     zapcore.TimeEncoderOfLayout("2006-01-02 15:04:05"), //输出时间
@@ -26,10 +24,14 @@ func Init(cf *config.Log) error {
 		EncodeDuration: zapcore.SecondsDurationEncoder,
 	}
 
+	if err := os.MkdirAll(cf.FileName, 0755); err != nil {
+		return fmt.Errorf("create log directory failed: %v", err)
+	}
+
 	// 配置日志文件写入器
 	fileWriter := &lumberjack.Logger{
-		Filename:   cf.FileName,
-		MaxSize:    cf.MaxSize,
+		Filename:   fmt.Sprintf("%s/%s.log", cf.FileName, time.Now().Format("2006010215")),
+		MaxSize:    cf.MaxSize * 1024,
 		MaxBackups: cf.MaxBackups,
 		MaxAge:     cf.MaxAge,
 		Compress:   cf.Compress,
@@ -62,10 +64,5 @@ func Info(cxt *gin.Context, msg string, fields ...zapcore.Field) {
 
 func Error(cxt *gin.Context, msg string, fields ...zapcore.Field) {
 	fields = append(fields, zap.String("requestId", cxt.GetString("requestId")))
-	zap.S().Error(msg, fields)
-}
-
-func Errorf(cxt *gin.Context, msg string, fields ...zapcore.Field) {
-	fields = append(fields, zap.String("requestId", cxt.GetString("requestId")))
-	zap.S().Error(msg, fields)
+	zap.L().Error(msg, fields...)
 }

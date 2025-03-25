@@ -33,7 +33,7 @@ log:
   level: "info"
   format: "json"
   fileName: "./logs/server"
-  maxSize: 100
-  maxBackups: 3
+  maxSize: 24
+  maxBackups: 1
   maxAge: 7
-  compress: false
+  compress: true

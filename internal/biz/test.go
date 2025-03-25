@@ -11,6 +11,6 @@ func (uc *Usecase) Test(ctx *gin.Context, req *v1.TestRequest) (*v1.TestResponse
 		ID:      req.ID,
 		Message: "test",
 	}
-	log.Info(ctx, "test success", log.AddField("id", resp.ID), log.AddField("message", resp.Message))
+	log.Info(ctx, "test success", log.AddField("message", resp.Message))
 	return resp, nil
 }

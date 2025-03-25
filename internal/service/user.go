@@ -6,10 +6,10 @@ import (
 	"github.com/xiaohubai/go-gin-grpc-layout/internal/pkg/code"
 )
 
-func (s *HTTPService) Test(ctx *gin.Context, req *v1.TestRequest) (*v1.TestResponse, error) {
-	resp, err := s.biz.Test(ctx, req)
+func (s *HTTPService) Login(ctx *gin.Context, req *v1.LoginRequest) (*v1.LoginResponse, error) {
+	resp, err := s.biz.Login(ctx, req)
 	if err != nil {
-		return nil, code.WithError(code.TestFailed, nil)
+		return nil, code.WithError(code.LoginFailed, nil)
 	}
 	return resp, err
 }

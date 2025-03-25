@@ -22,7 +22,6 @@ init:
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 	go install github.com/go-kratos/kratos/cmd/kratos/v2@latest
 	go install github.com/go-kratos/kratos/cmd/protoc-gen-go-http/v2@latest
-	go install github.com/envoyproxy/protoc-gen-validate@latest
 
 .PHONY: api
 # generate api proto
@@ -32,7 +31,6 @@ api:
 		   --go_out=paths=source_relative:./api \
  	       --go-http_out=paths=source_relative:./api \
  	       --go-grpc_out=paths=source_relative:./api \
-		   --validate_out=paths=source_relative,lang=go:./api \
 	       $(API_PROTO_FILES)
 
 

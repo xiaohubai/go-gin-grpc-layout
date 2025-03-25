@@ -26,8 +26,13 @@ const (
 
 // 业务错误
 const (
-	TestFailed = 5001 // 测试失败
-	SSEFailed  = 5002 // sse失败
+	// 测试服务
+	TestFailed = 5001 // 测试服务失败
+
+	// 用户服务
+	UserFailed  = 5002 // 用户服务失败
+	LoginFailed = 5003 // 登录失败
+
 )
 
 var msgMap = map[int]string{
@@ -37,6 +42,9 @@ var msgMap = map[int]string{
 	ParamsFailed: "参数校验错误",
 
 	// 业务错误
-	TestFailed: "测试失败",
-	SSEFailed:  "sse失败",
+	TestFailed: "测试服务失败",
+
+	// 用户服务
+	UserFailed:  "用户服务失败",
+	LoginFailed: "登录失败",
 }

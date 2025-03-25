@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v5.29.0
-// source: grpc/v1/grpc.proto
+// source: grpc/v1/test.proto
 
 package v1
 
@@ -28,7 +28,7 @@ const (
 //
 // GRPC 服务定义
 type GRPCClient interface {
-	// Test 登录
+	// Test 测试
 	Test(ctx context.Context, in *TestRequest, opts ...grpc.CallOption) (*TestResponse, error)
 }
 
@@ -56,7 +56,7 @@ func (c *gRPCClient) Test(ctx context.Context, in *TestRequest, opts ...grpc.Cal
 //
 // GRPC 服务定义
 type GRPCServer interface {
-	// Test 登录
+	// Test 测试
 	Test(context.Context, *TestRequest) (*TestResponse, error)
 	mustEmbedUnimplementedGRPCServer()
 }
@@ -123,5 +123,5 @@ var GRPC_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "grpc/v1/grpc.proto",
+	Metadata: "grpc/v1/test.proto",
 }
