@@ -16,7 +16,7 @@ const TableNameUser = "user"
 type User struct {
 	ID        int64          `gorm:"column:id;primaryKey;autoIncrement:true;comment:ID" json:"id"`             // ID
 	UID       int64          `gorm:"column:uid;not null;comment:用户ID" json:"uid"`                              // 用户ID
-	UserName  string         `gorm:"column:user_name;not null;comment:用户名" json:"user_name"`                   // 用户名
+	Username  string         `gorm:"column:username;not null;comment:用户名" json:"username"`                     // 用户名
 	Password  string         `gorm:"column:password;not null;default:123456;comment:密码" json:"password"`       // 密码
 	Salt      string         `gorm:"column:salt;not null;default:abcdef;comment:加盐" json:"salt"`               // 加盐
 	RoleID    int32          `gorm:"column:role_id;not null;comment:角色Id" json:"role_id"`                      // 角色Id

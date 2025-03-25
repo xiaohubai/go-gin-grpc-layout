@@ -7,7 +7,7 @@ import (
 )
 
 func (s *HTTPService) Test(ctx *gin.Context, req *v1.TestRequest) (*v1.TestResponse, error) {
-	resp, err := s.biz.Test(ctx, req)
+	resp, err := s.biz.Test(ctx.Request.Context(), req)
 	if err != nil {
 		return nil, code.WithError(code.TestFailed, nil)
 	}

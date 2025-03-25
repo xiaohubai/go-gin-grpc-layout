@@ -19,107 +19,107 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	GRPC_Test_FullMethodName = "/api.grpc.v1.GRPC/Test"
+	TestGRPC_Test_FullMethodName = "/api.grpc.v1.TestGRPC/Test"
 )
 
-// GRPCClient is the client API for GRPC service.
+// TestGRPCClient is the client API for TestGRPC service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 //
 // GRPC 服务定义
-type GRPCClient interface {
+type TestGRPCClient interface {
 	// Test 测试
 	Test(ctx context.Context, in *TestRequest, opts ...grpc.CallOption) (*TestResponse, error)
 }
 
-type gRPCClient struct {
+type testGRPCClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewGRPCClient(cc grpc.ClientConnInterface) GRPCClient {
-	return &gRPCClient{cc}
+func NewTestGRPCClient(cc grpc.ClientConnInterface) TestGRPCClient {
+	return &testGRPCClient{cc}
 }
 
-func (c *gRPCClient) Test(ctx context.Context, in *TestRequest, opts ...grpc.CallOption) (*TestResponse, error) {
+func (c *testGRPCClient) Test(ctx context.Context, in *TestRequest, opts ...grpc.CallOption) (*TestResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TestResponse)
-	err := c.cc.Invoke(ctx, GRPC_Test_FullMethodName, in, out, cOpts...)
+	err := c.cc.Invoke(ctx, TestGRPC_Test_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// GRPCServer is the server API for GRPC service.
-// All implementations must embed UnimplementedGRPCServer
+// TestGRPCServer is the server API for TestGRPC service.
+// All implementations must embed UnimplementedTestGRPCServer
 // for forward compatibility.
 //
 // GRPC 服务定义
-type GRPCServer interface {
+type TestGRPCServer interface {
 	// Test 测试
 	Test(context.Context, *TestRequest) (*TestResponse, error)
-	mustEmbedUnimplementedGRPCServer()
+	mustEmbedUnimplementedTestGRPCServer()
 }
 
-// UnimplementedGRPCServer must be embedded to have
+// UnimplementedTestGRPCServer must be embedded to have
 // forward compatible implementations.
 //
 // NOTE: this should be embedded by value instead of pointer to avoid a nil
 // pointer dereference when methods are called.
-type UnimplementedGRPCServer struct{}
+type UnimplementedTestGRPCServer struct{}
 
-func (UnimplementedGRPCServer) Test(context.Context, *TestRequest) (*TestResponse, error) {
+func (UnimplementedTestGRPCServer) Test(context.Context, *TestRequest) (*TestResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Test not implemented")
 }
-func (UnimplementedGRPCServer) mustEmbedUnimplementedGRPCServer() {}
-func (UnimplementedGRPCServer) testEmbeddedByValue()              {}
+func (UnimplementedTestGRPCServer) mustEmbedUnimplementedTestGRPCServer() {}
+func (UnimplementedTestGRPCServer) testEmbeddedByValue()                  {}
 
-// UnsafeGRPCServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to GRPCServer will
+// UnsafeTestGRPCServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to TestGRPCServer will
 // result in compilation errors.
-type UnsafeGRPCServer interface {
-	mustEmbedUnimplementedGRPCServer()
+type UnsafeTestGRPCServer interface {
+	mustEmbedUnimplementedTestGRPCServer()
 }
 
-func RegisterGRPCServer(s grpc.ServiceRegistrar, srv GRPCServer) {
-	// If the following call pancis, it indicates UnimplementedGRPCServer was
+func RegisterTestGRPCServer(s grpc.ServiceRegistrar, srv TestGRPCServer) {
+	// If the following call pancis, it indicates UnimplementedTestGRPCServer was
 	// embedded by pointer and is nil.  This will cause panics if an
 	// unimplemented method is ever invoked, so we test this at initialization
 	// time to prevent it from happening at runtime later due to I/O.
 	if t, ok := srv.(interface{ testEmbeddedByValue() }); ok {
 		t.testEmbeddedByValue()
 	}
-	s.RegisterService(&GRPC_ServiceDesc, srv)
+	s.RegisterService(&TestGRPC_ServiceDesc, srv)
 }
 
-func _GRPC_Test_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _TestGRPC_Test_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TestRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(GRPCServer).Test(ctx, in)
+		return srv.(TestGRPCServer).Test(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: GRPC_Test_FullMethodName,
+		FullMethod: TestGRPC_Test_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(GRPCServer).Test(ctx, req.(*TestRequest))
+		return srv.(TestGRPCServer).Test(ctx, req.(*TestRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// GRPC_ServiceDesc is the grpc.ServiceDesc for GRPC service.
+// TestGRPC_ServiceDesc is the grpc.ServiceDesc for TestGRPC service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var GRPC_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "api.grpc.v1.GRPC",
-	HandlerType: (*GRPCServer)(nil),
+var TestGRPC_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "api.grpc.v1.TestGRPC",
+	HandlerType: (*TestGRPCServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "Test",
-			Handler:    _GRPC_Test_Handler,
+			Handler:    _TestGRPC_Test_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

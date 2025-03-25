@@ -2,6 +2,7 @@
 package gh
 
 import (
+	"context"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -38,7 +39,7 @@ func Wrap[T any, R any](run func(c *gin.Context, req *T) (R, error)) gin.Handler
 		}
 
 		// 生成请求ID
-		c.Set("requestId", xid.New().String())
+		c.Request = c.Request.WithContext(context.WithValue(c.Request.Context(), "requestId", xid.New().String()))
 
 		// 执行业务逻辑
 		result, err := run(c, &reqModel)

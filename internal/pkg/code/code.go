@@ -30,8 +30,9 @@ const (
 	TestFailed = 5001 // 测试服务失败
 
 	// 用户服务
-	UserFailed  = 5002 // 用户服务失败
-	LoginFailed = 5003 // 登录失败
+	UserFailed     = 5002 // 用户服务失败
+	LoginFailed    = 5003 // 登录失败
+	UserInfoFailed = 5004 // 用户信息失败
 
 )
 
@@ -45,6 +46,7 @@ var msgMap = map[int]string{
 	TestFailed: "测试服务失败",
 
 	// 用户服务
-	UserFailed:  "用户服务失败",
-	LoginFailed: "登录失败",
+	UserFailed:     "用户服务失败",
+	LoginFailed:    "登录失败",
+	UserInfoFailed: "用户信息失败",
 }

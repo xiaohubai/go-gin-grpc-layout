@@ -29,7 +29,7 @@ func newUser(db *gorm.DB, opts ...gen.DOOption) user {
 	_user.ALL = field.NewAsterisk(tableName)
 	_user.ID = field.NewInt64(tableName, "id")
 	_user.UID = field.NewInt64(tableName, "uid")
-	_user.UserName = field.NewString(tableName, "user_name")
+	_user.Username = field.NewString(tableName, "username")
 	_user.Password = field.NewString(tableName, "password")
 	_user.Salt = field.NewString(tableName, "salt")
 	_user.RoleID = field.NewInt32(tableName, "role_id")
@@ -51,7 +51,7 @@ type user struct {
 	ALL       field.Asterisk
 	ID        field.Int64  // ID
 	UID       field.Int64  // 用户ID
-	UserName  field.String // 用户名
+	Username  field.String // 用户名
 	Password  field.String // 密码
 	Salt      field.String // 加盐
 	RoleID    field.Int32  // 角色Id
@@ -78,7 +78,7 @@ func (u *user) updateTableName(table string) *user {
 	u.ALL = field.NewAsterisk(table)
 	u.ID = field.NewInt64(table, "id")
 	u.UID = field.NewInt64(table, "uid")
-	u.UserName = field.NewString(table, "user_name")
+	u.Username = field.NewString(table, "username")
 	u.Password = field.NewString(table, "password")
 	u.Salt = field.NewString(table, "salt")
 	u.RoleID = field.NewInt32(table, "role_id")
@@ -106,7 +106,7 @@ func (u *user) fillFieldMap() {
 	u.fieldMap = make(map[string]field.Expr, 11)
 	u.fieldMap["id"] = u.ID
 	u.fieldMap["uid"] = u.UID
-	u.fieldMap["user_name"] = u.UserName
+	u.fieldMap["username"] = u.Username
 	u.fieldMap["password"] = u.Password
 	u.fieldMap["salt"] = u.Salt
 	u.fieldMap["role_id"] = u.RoleID

@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"context"
 	"math/rand"
 	"strconv"
 	"strings"
@@ -88,4 +89,11 @@ func GenXID() string {
 // NewUuid returns an uuid string.
 func NewUuid() string {
 	return uuid.New().String()
+}
+
+func GetString(ctx context.Context, key string) string {
+	if val, ok := ctx.Value(key).(string); ok && val != "" {
+		return val
+	}
+	return ""
 }

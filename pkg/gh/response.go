@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/xiaohubai/go-gin-grpc-layout/pkg/utils"
 )
 
 type CodeMsg struct {
@@ -31,7 +32,7 @@ func result(ctx *gin.Context, code int, data any, msg string) {
 		Code:      code,
 		Data:      data,
 		Msg:       msg,
-		RequestID: ctx.GetString("requestId"),
+		RequestID: utils.GetString(ctx.Request.Context(), "requestId"),
 	}
 	ctx.JSON(http.StatusOK, resp)
 }

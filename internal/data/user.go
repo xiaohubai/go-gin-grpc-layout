@@ -18,8 +18,8 @@ func (d *Data) NewUserDB(tx ...*gorm.DB) *UserDB {
 
 type User struct {
 	model.User
-	ExtraInfo gorm.JSONField[UserExtraInfo] `gorm:"column:extra_info"                json:"extraInfo"` // 额外信息
-	Role      model.Role                    `gorm:"foreignKey:RoleID;references:ID"  json:"role"`
+	ExtraInfo gorm.JSONField[UserExtraInfo] `gorm:"column:extra_info" json:"extraInfo"`
+	Role      Role                          `gorm:"foreignKey:RoleID;references:RoleID"`
 }
 
 type UserExtraInfo struct {

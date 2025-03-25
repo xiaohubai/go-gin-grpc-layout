@@ -1,12 +1,13 @@
 package log
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"time"
 
-	"github.com/gin-gonic/gin"
 	"github.com/xiaohubai/go-gin-grpc-layout/pkg/config"
+	"github.com/xiaohubai/go-gin-grpc-layout/pkg/utils"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
 	"gopkg.in/natefinch/lumberjack.v2"
@@ -57,12 +58,12 @@ func Init(cf *config.Log) error {
 func AddField(key string, value any) zapcore.Field {
 	return zap.Any(key, value)
 }
-func Info(cxt *gin.Context, msg string, fields ...zapcore.Field) {
-	fields = append(fields, zap.String("requestId", cxt.GetString("requestId")))
+func Info(ctx context.Context, msg string, fields ...zapcore.Field) {
+	fields = append(fields, zap.String("requestId", utils.GetString(ctx, "requestId")))
 	zap.L().Info(msg, fields...)
 }
 
-func Error(cxt *gin.Context, msg string, fields ...zapcore.Field) {
-	fields = append(fields, zap.String("requestId", cxt.GetString("requestId")))
+func Error(ctx context.Context, msg string, fields ...zapcore.Field) {
+	fields = append(fields, zap.String("requestId", utils.GetString(ctx, "requestId")))
 	zap.L().Error(msg, fields...)
 }

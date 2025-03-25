@@ -8,7 +8,7 @@ option java_package = "api.grpc.v1";
 
 
 // GRPC 服务定义
-service GRPC {
+service TestGRPC {
   // Test 测试
   rpc Test(TestRequest) returns (TestResponse); 
 }

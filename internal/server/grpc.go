@@ -26,6 +26,13 @@ func NewGRPCServer(c *config.Server, sg *service.GRPCService) *grpc.Server {
 		opts = append(opts, grpc.Timeout(viper.GetDuration(c.GRPC.Timeout)))
 	}
 	srv := grpc.NewServer(opts...)
-	v1.RegisterGRPCServer(srv, sg)
+	return registerGRPCServer(srv, sg)
+}
+
+// registerGRPCServer 注册grpc服务组
+func registerGRPCServer(srv *grpc.Server, sg *service.GRPCService) *grpc.Server {
+	v1.RegisterTestGRPCServer(srv, sg)
+	v1.RegisterUserGRPCServer(srv, sg)
+
 	return srv
 }

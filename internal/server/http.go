@@ -33,6 +33,7 @@ func routers(s *service.HTTPService) *gin.Engine {
 	{
 		v1.POST("/test", gh.Wrap(s.Test))
 		v1.POST("/login", gh.Wrap(s.Login))
+		v1.POST("/userInfo", gh.Wrap(s.UserInfo))
 	}
 
 	return router

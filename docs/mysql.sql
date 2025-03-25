@@ -1,7 +1,7 @@
 CREATE TABLE `user` (
   `id` bigint NOT NULL AUTO_INCREMENT COMMENT 'ID',
   `uid` bigint unsigned NOT NULL DEFAULT '0' COMMENT '用户ID',
-  `user_name` varchar(20) NOT NULL DEFAULT '' COMMENT '用户名',
+  `username` varchar(20) NOT NULL DEFAULT '' COMMENT '用户名',
   `password` varchar(255) NOT NULL DEFAULT '123456' COMMENT '密码',
   `salt` varchar(20) NOT NULL DEFAULT 'abcdef' COMMENT '加盐',
   `role_id` tinyint NOT NULL DEFAULT '0' COMMENT '角色Id',
