@@ -1,8 +1,6 @@
 package main
 
 import (
-	"flag"
-
 	"github.com/go-kratos/kratos/v2"
 	"github.com/xiaohubai/go-gin-grpc-layout/internal/data"
 
@@ -10,17 +8,16 @@ import (
 	"github.com/xiaohubai/go-gin-grpc-layout/internal/service"
 	"github.com/xiaohubai/go-gin-grpc-layout/pkg/config"
 	"github.com/xiaohubai/go-gin-grpc-layout/pkg/log"
+	"github.com/xiaohubai/go-gin-grpc-layout/pkg/opentelemetry"
 
 	_ "go.uber.org/automaxprocs"
 )
 
-var conf = flag.String("app_conf", "./configs/config.yaml", "app config file")
-
 func newApp(c *config.Conf) *kratos.App {
 	return kratos.New(
-		kratos.ID(c.ID),
-		kratos.Name(c.Name),
-		kratos.Version(c.Version),
+		kratos.ID(c.App.ID),
+		kratos.Name(c.App.Name),
+		kratos.Version(c.App.Version),
 		kratos.Metadata(map[string]string{}),
 		kratos.Server(
 			server.NewHTTPServer(&c.Server, service.NewHTTPService()),
@@ -30,20 +27,24 @@ func newApp(c *config.Conf) *kratos.App {
 }
 
 func main() {
-	cf, err := config.Read[config.Conf](*conf)
-	if err != nil {
+	if err := config.Init(); err != nil {
 		panic(err)
 	}
 
-	if err := log.Init(&cf.Log); err != nil {
+	conf := config.GetConfig()
+	if err := log.Init(&conf.Log); err != nil {
 		panic(err)
 	}
 
-	if err := data.Init(&cf.Data); err != nil {
+	if err := opentelemetry.Init(); err != nil {
 		panic(err)
 	}
 
-	if err := newApp(cf).Run(); err != nil {
+	if err := data.Init(&conf.Data); err != nil {
+		panic(err)
+	}
+
+	if err := newApp(conf).Run(); err != nil {
 		panic(err)
 	}
 

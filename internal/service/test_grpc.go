@@ -14,7 +14,7 @@ func (s *GRPCService) Test(ctx context.Context, req *v1.TestRequest) (*v1.TestRe
 	}
 
 	return &v1.TestResponse{
-		ID:      resp.ID,
+		Id:      resp.Id,
 		Message: resp.Message,
 	}, nil
 

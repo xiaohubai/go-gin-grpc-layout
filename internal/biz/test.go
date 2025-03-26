@@ -9,7 +9,7 @@ import (
 
 func (uc *Usecase) Test(ctx context.Context, req *v1.TestRequest) (*v1.TestResponse, error) {
 	resp := &v1.TestResponse{
-		ID:      req.ID,
+		Id:      req.Id,
 		Message: "test",
 	}
 	log.Info(ctx, "test success", log.AddField("message", resp.Message))

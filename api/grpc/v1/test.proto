@@ -15,11 +15,11 @@ service TestGRPC {
 
 // TestRequest 测试请求
 message TestRequest {
-  string ID = 1;
+  string id = 1;
 }
 
 // TestResponse 测试响应
 message TestResponse {
-  string ID = 1;
-  string Message = 2;
+  string id = 1;
+  string message = 2;
 }

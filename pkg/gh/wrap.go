@@ -2,11 +2,9 @@
 package gh
 
 import (
-	"context"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/rs/xid"
 )
 
 // Wrap 泛型函数，封装请求处理逻辑，自动解析参数并处理错误
@@ -37,9 +35,6 @@ func Wrap[T any, R any](run func(c *gin.Context, req *T) (R, error)) gin.Handler
 			fail(c, CodeMsg{Code: 4001, Msg: fmt.Sprintf("invalid params: %v", err)})
 			return
 		}
-
-		// 生成请求ID
-		c.Request = c.Request.WithContext(context.WithValue(c.Request.Context(), "requestId", xid.New().String()))
 
 		// 执行业务逻辑
 		result, err := run(c, &reqModel)

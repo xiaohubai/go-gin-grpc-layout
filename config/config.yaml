@@ -11,11 +11,13 @@ remote:
 
 server:
   http:
+    name: http
     addr: 0.0.0.0:8000
-    timeout: 1s
+    timeout: 5s
   grpc:
+    name: grpc
     addr: 0.0.0.0:9000
-    timeout: 1s
+    timeout: 5s
 
 data:
   mysql:
@@ -37,3 +39,9 @@ log:
   maxBackups: 1
   maxAge: 7
   compress: true
+
+opentelemetry:
+  jaeger:
+    endpoint: "127.0.0.1:1234"
+  prometheus:
+    endpoint: "127.0.0.1:1234"

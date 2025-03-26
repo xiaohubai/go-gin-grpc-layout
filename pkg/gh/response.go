@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/xiaohubai/go-gin-grpc-layout/pkg/utils"
+	"github.com/xiaohubai/go-gin-grpc-layout/pkg/opentelemetry/trace"
 )
 
 type CodeMsg struct {
@@ -18,23 +18,23 @@ func (w *CodeMsg) Error() string {
 }
 
 type Body struct {
-	Code      int    `json:"code"`
-	Msg       string `json:"msg"`
-	Data      any    `json:"data"`
-	RequestID string `json:"requestId"`
+	Code    int    `json:"code"`
+	Msg     string `json:"msg"`
+	Data    any    `json:"data"`
+	TraceID string `json:"traceId"`
 }
 
-func result(ctx *gin.Context, code int, data any, msg string) {
+func result(c *gin.Context, code int, data any, msg string) {
 	if data == nil {
 		data = make(map[string]string, 0)
 	}
 	resp := Body{
-		Code:      code,
-		Data:      data,
-		Msg:       msg,
-		RequestID: utils.GetString(ctx.Request.Context(), "requestId"),
+		Code:    code,
+		Data:    data,
+		Msg:     msg,
+		TraceID: trace.TraceID(c.Request.Context()),
 	}
-	ctx.JSON(http.StatusOK, resp)
+	c.JSON(http.StatusOK, resp)
 }
 
 func success(ctx *gin.Context, data any) {

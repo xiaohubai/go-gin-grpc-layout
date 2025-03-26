@@ -10,10 +10,10 @@ option java_package = "api.http.v1";
 
 // test
 message TestRequest {
-  string ID = 1;
+  string id = 1;
 }
 message TestResponse {
-  string ID = 1;
-  string Message = 2;
+  string id = 1;
+  string message = 2;
 }
 

@@ -4,6 +4,7 @@ import (
 	"context"
 
 	v1 "github.com/xiaohubai/go-gin-grpc-layout/api/http/v1"
+	"github.com/xiaohubai/go-gin-grpc-layout/pkg/opentelemetry/trace"
 )
 
 func (uc *Usecase) Login(ctx context.Context, req *v1.LoginRequest) (*v1.LoginResponse, error) {
@@ -13,6 +14,9 @@ func (uc *Usecase) Login(ctx context.Context, req *v1.LoginRequest) (*v1.LoginRe
 }
 
 func (uc *Usecase) UserInfo(ctx context.Context, req *v1.UserInfoRequest) (*v1.UserInfoResponse, error) {
+	ctx, span := trace.NewSpan(ctx, "UserInfo")
+	defer span.End()
+
 	user, err := uc.db.NewUserDB().FindByConds(ctx, map[string]any{
 		"username": req.UserName,
 	}, []string{"Role"})

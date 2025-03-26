@@ -3,6 +3,7 @@ package server
 import (
 	"github.com/gin-gonic/gin"
 	"github.com/go-kratos/kratos/v2/transport/http"
+	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/spf13/viper"
 	m "github.com/xiaohubai/go-gin-grpc-layout/internal/pkg/middleware"
 	"github.com/xiaohubai/go-gin-grpc-layout/internal/service"
@@ -29,7 +30,13 @@ func NewHTTPServer(c *config.Server, sh *service.HTTPService) *http.Server {
 func routers(s *service.HTTPService) *gin.Engine {
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
-	v1 := router.Group("v1").Use(m.Recovery())
+	r := router.Group("")
+	{
+		r.GET("/metrics", gin.WrapH(promhttp.Handler()))
+	}
+
+	router.Use(m.Recovery(), m.Trace(), m.Metric())
+	v1 := router.Group("v1")
 	{
 		v1.POST("/test", gh.Wrap(s.Test))
 		v1.POST("/login", gh.Wrap(s.Login))

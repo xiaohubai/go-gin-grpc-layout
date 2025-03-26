@@ -10,11 +10,11 @@ option java_package = "api.http.v1";
 
 // login
 message LoginRequest {
-  string UserName = 1;
-  string PassWord = 2;
+  string userName = 1;
+  string passWord = 2;
 }
 message LoginResponse {
-  string Token = 1;
+  string token = 1;
 }
 
 // userinfo
